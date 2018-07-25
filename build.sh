@@ -1,6 +1,6 @@
 #!/bin/bash
-imageName=xx:my-image
-containerName=my-container
+imageName=go-wasm-scott:image
+containerName=go-wasm-scott
 
 docker build -t $imageName -f Dockerfile  .
 
