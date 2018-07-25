@@ -35,12 +35,27 @@ license that can be found in the LICENSE file.
       document.getElementById("runButton").disabled = true;
       await go.run(inst);
     }
+
+    (function () {
+      let _scott;
+      Object.defineProperty(window, 'scott', {
+        get() {
+          return _scott;
+        },
+        set(value) {
+          _scott = value;
+          const codeGuy = document.getElementById('code-guy');
+          codeGuy.innerHTML = JSON.stringify(JSON.parse(value), null, 2);
+        }
+      });
+    })();
   </script>
 
   <button onClick="run();" id="runButton" disabled>Run</button>
   <button onClick="killWASM();" id="stopButton" disabled>STOP</button>
   <button onClick="setTheText();" id="setButton" disabled>AGAIN</button>
   <div id="app"></div>
+  <pre id="code-guy"></pre>
 </body>
 
 </html>

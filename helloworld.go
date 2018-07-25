@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
   "syscall/js"
+  "net/http"
+  "io/ioutil"
 )
 
 var done = make(chan struct{})
@@ -14,6 +16,8 @@ func main() {
   setupDoitAgain()
   cb := endBeforeUnload()
   defer cb.Release()
+
+  getTheData()
 
   <- done
   fmt.Println("Bye WASM!")
@@ -60,6 +64,22 @@ func setupKillWASM() {
   js.Global().Set("killWASM", js.NewCallback(kill))
 }
 
+func getTheData() {
+  resp, err := http.Get("https://www.jsonstore.io/33abd1336ed1cb35f157ef70ef0958f53eae56696bb7be46377364fb356d20b8/")
+
+  if err != nil {
+    fmt.Printf("%s", err)
+  } else {
+    defer resp.Body.Close()
+    contents, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+      fmt.Printf("%s", err)
+    }
+    result := string(contents)
+    fmt.Printf("RESULT -> %s\n", result)
+    js.Global().Set("scott", result)
+  }
+}
 
 func getColors() (colors [7]string) {
   colors[0] = "red"
