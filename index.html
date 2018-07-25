@@ -30,13 +30,16 @@ license that can be found in the LICENSE file.
     });
 
     async function run() {
+      document.getElementById("stopButton").disabled = false;
+      document.getElementById("setButton").disabled = false;
+      document.getElementById("runButton").disabled = true;
       await go.run(inst);
-      inst = await WebAssembly.instantiate(mod, go.importObject); // reset instance
     }
   </script>
 
   <button onClick="run();" id="runButton" disabled>Run</button>
-
+  <button onClick="killWASM();" id="stopButton" disabled>STOP</button>
+  <button onClick="setTheText();" id="setButton" disabled>AGAIN</button>
   <div id="app"></div>
 </body>
 
