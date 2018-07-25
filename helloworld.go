@@ -19,14 +19,17 @@ func main() {
   fmt.Println("Bye WASM!")
 }
 
+var colors = getColors()
+
 func setTheText() {
-  num++
   doc := js.Global().Get("document")
-  container := doc.Call("getElementById", "app")
-  js.ValueOf(container).Set(
+  container := js.ValueOf(doc.Call("getElementById", "app"))
+  container.Set(
     "innerHTML",
     fmt.Sprintf("For no good reason, I am setting this using GO!! (%d)",  num),
   )
+  doc.Get("body").Get("style").Set("backgroundColor", colors[num % len(colors)])
+  num++
   fmt.Println("I SET IT!")
 }
 
@@ -55,6 +58,18 @@ func setupKillWASM() {
     done <- struct{}{}
   }
   js.Global().Set("killWASM", js.NewCallback(kill))
+}
+
+
+func getColors() (colors [7]string) {
+  colors[0] = "red"
+  colors[1] = "orange"
+  colors[2] = "yellow"
+  colors[3] = "green"
+  colors[4] = "blue"
+  colors[5] = "indigo"
+  colors[6] = "violet"
+  return
 }
 
 
