@@ -1,0 +1,9 @@
+{
+  "verbose": true,
+  "execMap": {
+    "js": "echo 'js file changed!'",
+    "go": "echo 'go file changed!",
+    "json": "echo 'json file changed!'"
+  },
+  "ext": "js,json,go"
+}
